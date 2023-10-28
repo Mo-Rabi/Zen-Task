@@ -43,7 +43,13 @@ app.use(cookieParser());
 
 app.use(cors({ origin: "*" })); //? allows all requests from anywhere to my server (better to specify later after going live in production)
 
-//! View engine
+//! Add the COOP middleware here
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  next();
+});
+
+// View engine
 app.set("view engine", "hbs");
 app.set("views", templatePath);
 hbs.registerAsyncHelper("readFile", function (filename, callback) {
